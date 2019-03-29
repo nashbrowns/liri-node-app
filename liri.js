@@ -14,6 +14,10 @@ if(command === 'movie-this'){
 
     callOMBD(commandString);
 }
+else if(command === 'spotify-this-song'){
+
+    callSpotify(commandString);
+}
 else{
     console.log('invalid command');
     console.log('valid commands: ');
@@ -22,10 +26,6 @@ else{
     console.log("concert-this '<artist/band name here>' ");
     console.log('');
 }
-
-/* var spotify = new Spotify(keys.spotify);
-var band_id = dotenv.parsed.BANDS_ID;
-var omdb_id = dotenv.parsed.OMDB_ID; */
 
 function callOMBD(movieName){
 
@@ -36,7 +36,7 @@ function callOMBD(movieName){
 
             let data = response.data;
 
-            console.log(JSON.stringify(data));
+            /* console.log(JSON.stringify(data)); */
 
             console.log('---------------------')
             console.log('Title: '+data.Title);
@@ -49,11 +49,21 @@ function callOMBD(movieName){
             console.log('---------------------');
             console.log('        Plot         ');/* 56 characters */
             console.log('---------------------------------------------------------');
-            for(let i = 0;i<(data.Plot).length;i++){
-
-            }
-
-            console.log(data.Plot[0]);
+            console.log(data.Plot);
             console.log('---------------------------------------------------------');
+            console.log('Actors: '+data.Actors);
     });
+}
+
+function callSpotify(trackName){
+
+    var spotify = new Spotify(keys.spotify)
+
+    spotify.search({type: 'track', query: trackName},function(err,data){
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+        console.log(data.tracks.items[0]);
+    })
+    
 }
