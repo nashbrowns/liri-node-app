@@ -1,6 +1,7 @@
 const dotenv = require("dotenv").config();
 const keys = require("./key.js");
 const Spotify = require('node-spotify-api');
+const moment = require('moment');
 const axios = require("axios");
 
 if (dotenv.error) {
@@ -17,6 +18,11 @@ if (command === 'movie-this') {
 else if (command === 'spotify-this-song') {
 
     callSpotify(commandString);
+}
+else if (command === 'concert-this'){
+
+    callBands(commandString);
+
 }
 else {
     console.log('invalid command');
@@ -94,4 +100,31 @@ function callSpotify(trackName) {
 
     })
 
+}
+
+function callBands(bandName){
+
+    const bands_id = dotenv.parsed.BANDS_ID;
+
+    bandName = bandName.replace(' ','%20');
+
+    axios.get("https://rest.bandsintown.com/artists/" + bandName + "/events?app_id="+bands_id+"&date=upcoming")
+        .then(function (response) {
+
+            for(let i = 0; i<4;i++){
+                console.log('\n-----------------------');
+                console.log(response.data[i].venue.name);
+                if(response.data[i].venue.region === ''){
+                    console.log(response.data[i].venue.city);
+                }
+                else{
+                    console.log(response.data[i].venue.city+','+response.data[i].venue.region);
+
+                }
+                let showDate = moment(response.data[i].datetime).format('MM/DD/YYYY');
+                console.log('Date: '+showDate);
+                console.log('-----------------------');
+            }
+            
+        });
 }
