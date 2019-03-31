@@ -95,7 +95,7 @@ function callSpotify(trackName) {
 
         let trackArr = data.tracks.items;
 
-        console.log(trackArr[0]);
+        // console.log(trackArr[0]);
 
         for (let i = 0; i < trackArr.length; i++) {
 
