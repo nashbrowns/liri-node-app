@@ -9,15 +9,22 @@ if (dotenv.error) {
 }
 
 const command = process.argv[2];
-/* const commandString = process.argv[3];
- */const commandString = process.argv.slice(3).join(" ");
+/* const commandString = process.argv[3];*/
+let commandString = process.argv.slice(3).join(" ");
+console.log(commandString);
 
 if (command === 'movie-this') {
 
+    if(commandString == ""){
+        commandString = 'Mr. Nobody';
+    }
     callOMBD(commandString);
 }
 else if (command === 'spotify-this-song') {
 
+    if(commandString == ""){
+        commandString = 'the sign';
+    }
     callSpotify(commandString);
 }
 else if (command === 'concert-this'){
@@ -69,10 +76,6 @@ function callOMBD(movieName) {
 }
 
 function callSpotify(trackName) {
-
-    if(trackName === undefined){
-        trackName = 'the sign ace';
-    }
 
     var spotify = new Spotify(keys.spotify)
 
