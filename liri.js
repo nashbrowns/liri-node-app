@@ -9,7 +9,8 @@ if (dotenv.error) {
 }
 
 const command = process.argv[2];
-const commandString = process.argv[3];
+/* const commandString = process.argv[3];
+ */const commandString = process.argv.slice(3).join(" ");
 
 if (command === 'movie-this') {
 
